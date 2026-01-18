@@ -1,0 +1,12 @@
+# 过滤数据集
+HiXray/
+PIDray/
+
+# 过滤模型权重和日志
+runs/
+*.pt
+*.pth
+
+# 过滤 Python 缓存
+__pycache__/
+.ipynb_checkpoints/

@@ -1,0 +1,14 @@
+path: /root/YOLOv8-Project-8.1/HiXray 
+train: train/images
+val: val/images
+test: test/images
+
+names:
+  0: Portable_Charger_1
+  1: Portable_Charger_2
+  2: Water
+  3: Laptop
+  4: Mobile_Phone
+  5: Tablet
+  6: Cosmetic
+  7: Nonmetallic_Lighter
