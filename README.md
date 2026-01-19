@@ -42,8 +42,6 @@ GSA-YOLO is built upon the YOLOv8n architecture and strategically integrates str
 
 ## 📊 Main Results
 
-## 📊 Main Results
-
 ### 1. Comparison on HiXray Dataset
 Our model outperforms various state-of-the-art methods in both speed and accuracy.
 
@@ -89,30 +87,17 @@ The synergistic effect of GL, SSS, and Ada-KD on the YOLOv8n baseline (tested on
 
 ### Confusion Matrix
 Evaluation of classification robustness and detection completeness.
-<table>
-  <tr>
-    <!-- 第一列：图1和图2 -->
-    <td align="center">
-      <strong>Matrix 1</strong><br>
-      <img src="4.4%20confusion%20matrix%201.png" width="90%">
-    </td>
-    <!-- 第二列：图3和图4 -->
-    <td align="center">
-      <strong>Matrix 3</strong><br>
-      <img src="4.4%20confusion%20matrix%203.png" width="90%">
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <strong>Matrix 2</strong><br>
-      <img src="4.4%20confusion%20matrix%202.png" width="90%">
-    </td>
-    <td align="center">
-      <strong>Matrix 4</strong><br>
-      <img src="4.4%20confusion%20matrix%204.png" width="90%">
-    </td>
-  </tr>
-</table>
+
+
+<div align="center">
+
+| Baseline | GSA-YOLO |
+|----------|----------|
+| ![Baseline-Matrix1](figures/confusion_1.png) | ![GSA-YOLO-Matrix3](figures/confusion_3.png) |
+| ![Baseline-Matrix2](figures/confusion_2.png) | ![GSA-YOLO-Matrix4](figures/confusion_4.png) |
+
+</div>
+
 
 ### Case Study
 Inference results in scenarios with high object density and severe occlusion.
@@ -137,21 +122,25 @@ Based on our sensitivity analysis, the following "Sweet Spot" parameters are rec
 
 ## ⚙️ Installation
 
-1. Clone the repository:
-   ```bash
+### Stage 0: Clone the repository:
    git clone https://github.com/KJHkong/GSA-YOLO.git
    cd GSA-YOLO
 
-🚀 Quick Start
-1. Training with Sparsity (GL & SSS)
-To train the model with Group Lasso and Sparse Structure Selection:
+### Stage 1: Sparsity-Induced Pre-training
+Apply Group Lasso (GL) and Sparse Structure Selection (SSS) to identify redundant channels.
 
-python train.py --cfg gsa-yolo.yaml --data hixray.yaml --sparsity --beta 1e-4 --gamma 1e-3
+python train.py --model yolov8n.yaml --data hixray.yaml --epochs 100 --batch 64 --sparsity --beta 1e-4 --gamma 1e-3
 
-2. Adaptive Knowledge Distillation
-After pruning, use Ada-KD to recover accuracy:
 
-python train_distill.py --teacher yolov8m.pt --student pruned_model.pt --lambda0 4 --theta 15
+### Stage 2: Structural Pruning
+Generate the compact model by removing channels with scaling factors $\lambda < \tau$.
+
+python prune.py --weights runs/train/weights/last.pt --threshold 0.001
+
+### Stage 3: Accuracy Recovery via Ada-KD
+Fine-tune the pruned student model using the YOLOv8m teacher.
+
+python train_distill.py --teacher yolov8m.pt --student pruned_model.pt --data hixray.yaml --lambda0 4 --theta 15
 
 ## 📚 Citation
 
