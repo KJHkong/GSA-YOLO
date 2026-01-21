@@ -122,9 +122,17 @@ Based on our sensitivity analysis, the following "Sweet Spot" parameters are rec
 
 ## ⚙️ Installation
 
-### Stage 0: Clone the repository:
-   git clone https://github.com/KJHkong/GSA-YOLO.git
-   cd GSA-YOLO
+### Stage 0: requirements
+
+Python: 3.10.18
+
+PyTorch: 2.7.1
+
+CUDA: 12.6
+
+Hardware: NVIDIA RTX 3090 (or similar with 24GB VRAM)
+
+pip install ultralytics==8.3.199 torch==2.7.1+cu126 --extra-index-url https://download.pytorch.org/whl/cu126
 
 ### Stage 1: Sparsity-Induced Pre-training
 Apply Group Lasso (GL) and Sparse Structure Selection (SSS) to identify redundant channels.
