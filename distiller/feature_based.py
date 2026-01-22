@@ -13,6 +13,6 @@ class FeatureLoss(nn.Module):
         """
         loss = 0
         for s, t in zip(f_s, f_t):
-            # 如果通道数不一致，通常需要一个 1x1 卷积对齐（这里假设已对齐）
+            # 如果通道数不一致，通常需要一个 1x1 卷积对齐
             loss += F.mse_loss(s, t)
         return loss
